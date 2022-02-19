@@ -21,7 +21,7 @@ public class AddressController {
     private final StreetService streetService;
     private final AddressService addressService;
 
-
+// Ülke işlemleri
     @GetMapping("/country")
     public ResponseEntity findAll(){
         List<Country> countryDtoList=countryService.findAll();
@@ -33,33 +33,19 @@ public class AddressController {
 
         return (List<Country>) countryService.findByCode(name);
     }
-    @GetMapping("/town")
-    public ResponseEntity findAllTown(){
-        List<Town> towns=townService.findAll();
-        return new ResponseEntity(towns,HttpStatus.OK);
-    }
-
     @PostMapping("/country")
     public void addNewCountry(@RequestBody Country country){
         countryService.addNewCountry(country);
-   }
-
-    @PostMapping("/province")
-    public void addNewProvince(@RequestBody Province province){
-       provinceService.addNewProvince(province,province.getCountry_id());
     }
 
-    @PostMapping("/town")
-    public void addNewTown(@RequestBody Town town){
-        townService.addNewTown(town);
+    //İL işlemleri
+
+    @GetMapping("/province")
+    public ResponseEntity<List<Province>> findAllProvince(){
+        List<Province> countryDtoList=provinceService.findAllProvince();
+        return new ResponseEntity<>(countryDtoList,HttpStatus.OK);
     }
-
-    @PostMapping("/neighborhood")
-    public void addNeighborhood(@RequestBody Neighborhood neighborhood){
-        neighborhoodService.addNeighborhood(neighborhood);
-    }
-
-
+    // plaka kodundan il bulma
     @RequestMapping(value = "/province/{plateCode}", method = RequestMethod.GET)
     @ResponseBody
     public List<Province> findByPlateCode(@PathVariable String plateCode) {
@@ -67,31 +53,43 @@ public class AddressController {
         return (List<Province>) provinceService.findByPlateCode(plateCode);
     }
 
-    @GetMapping("/province")
-    public ResponseEntity<List<Province>> findAllProvince(){
-        List<Province> countryDtoList=provinceService.findAllProvince();
-        return new ResponseEntity<>(countryDtoList,HttpStatus.OK);
+    @PostMapping("/province")
+    public void addNewProvince(@RequestBody Province province){
+        provinceService.addNewProvince(province,province.getCountry_id());
     }
 
+    //İlçe işlemleri
+
+    //Bir ile ait ilçeler
     @RequestMapping(value = "/town/{provinceName}", method = RequestMethod.GET)
     @ResponseBody
     public List<Town> findByProvinceName(@PathVariable String provinceName) {
 
         return (List<Town>) townService.findProvinceTowns(provinceName);
     }
+
+    //Tüm ilçeler
+    @GetMapping("/town")
+    public ResponseEntity findAllTown(){
+        List<Town> towns=townService.findAll();
+        return new ResponseEntity(towns,HttpStatus.OK);
+    }
+
+    //ilçe ekleme
+    @PostMapping("/town")
+    public void addNewTown(@RequestBody Town town){
+        townService.addNewTown(town);
+    }
+
+
+    //Mahalle işlemleri
+
     @GetMapping("/neighborhood")
     public ResponseEntity<List<Neighborhood>> findAllNeigborhood(){
         List<Neighborhood> neighborhoods=neighborhoodService.findAllNeigborhood();
         return new ResponseEntity<>(neighborhoods,HttpStatus.OK);
     }
-
-
-    @PutMapping(path = "neighborhood/{neighborhoodId}")
-    public void updateNeighborhood(@PathVariable("neighborhoodId")Long neighborhoodId,
-                              @RequestParam(required = false)String name){
-        neighborhoodService.updateNeighborhood(neighborhoodId,name);
-    }
-
+    //ilçe adına göre mahalleler
     @RequestMapping(value = "/neighborhood/{townName}", method = RequestMethod.GET)
     @ResponseBody
     public List<Neighborhood> findbyTownName(@PathVariable String townName) {
@@ -99,29 +97,48 @@ public class AddressController {
         return (List<Neighborhood>) neighborhoodService.findTownNeighborhoods(townName);
     }
 
-    @PostMapping("/street")
-    public void addStreet(@RequestBody Street street){
-       streetService.addStreet(street);
+    @PostMapping("/neighborhood")
+    public void addNeighborhood(@RequestBody Neighborhood neighborhood){
+        neighborhoodService.addNeighborhood(neighborhood);
     }
+
+    // id vererek mahalle adını değiştirme   /1?name=değiştirdim şeklinde
+    @PutMapping(path = "neighborhood/{neighborhoodId}")
+    public void updateNeighborhood(@PathVariable("neighborhoodId")Long neighborhoodId,
+                              @RequestParam(required = false)String name){
+        neighborhoodService.updateNeighborhood(neighborhoodId,name);
+    }
+
+   // Sokak işlemleri
+
+
     @GetMapping("/street")
     public ResponseEntity<List<Street>> findAllStreet(){
         List<Street> streets=streetService.findAllStreet();
         return new ResponseEntity<>(streets,HttpStatus.OK);
     }
 
-
-    @PutMapping(path = "street/{streetId}")
-    public void updateStreet(@PathVariable("streetId")Long streetId,
-                              @RequestParam(required = false)String name){
-        streetService.updateStreet(streetId,name);
-    }
-
+    //Mahalle adına göre sokaklar
     @RequestMapping(value = "/street/{neighName}", method = RequestMethod.GET)
     @ResponseBody
     public List<Street> findbyNeighborhoodName(@PathVariable String neighName) {
 
         return (List<Street>) streetService.findNeighborhoodStreets(neighName);
     }
+    @PostMapping("/street")
+    public void addStreet(@RequestBody Street street){
+       streetService.addStreet(street);
+    }
+
+
+    // sokak id vererek isim değiştirme /1?name=değiştirdim
+    @PutMapping(path = "street/{streetId}")
+    public void updateStreet(@PathVariable("streetId")Long streetId,
+                              @RequestParam(required = false)String name){
+        streetService.updateStreet(streetId,name);
+    }
+
+
 
     // ADRES İÇİN REQUESTLER
     @GetMapping("/address")

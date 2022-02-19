@@ -1,16 +1,14 @@
 package com.patika.stspringboothw2;
 
-import com.patika.stspringboothw2.entity.Address;
-import com.patika.stspringboothw2.entity.Country;
-import com.patika.stspringboothw2.entity.Street;
-import com.patika.stspringboothw2.repository.AddressRepository;
-import com.patika.stspringboothw2.repository.CountryRepository;
+import com.patika.stspringboothw2.entity.*;
+import com.patika.stspringboothw2.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.security.Provider;
 import java.util.List;
 @RequiredArgsConstructor
 @SpringBootApplication
@@ -21,6 +19,11 @@ public class StSpringbootHw2Application implements CommandLineRunner {
 	}
 
 	private final AddressRepository addressRepository;
+	private final CountryRepository countryRepository;
+	private final ProvinceRepository provinceRepository;
+	private final TownRepository townRepository;
+	private final NeighborhoodRepository neighborhoodRepository;
+	private final StreetRepository streetRepository;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -28,6 +31,18 @@ public class StSpringbootHw2Application implements CommandLineRunner {
 		Address address2=new Address(2L,"Türkiye","Kocaeli","Derince","Yenikent","120.sk","21","12");
 		this.addressRepository.save(address);
 		this.addressRepository.save(address2);
+
+		Country country=new Country(1L,"Fransa","FR");
+		Province province=new Province(1L,"Paris","16",country.getId(),country);
+		Town town = new Town(1L,"Merkez", province.getId(), province);
+		Neighborhood neighborhood=new Neighborhood(1L,"paris mahallesi",town.getId(),town);
+		Street street=new Street(1L,"144.sk","7","13",neighborhood.getId(),neighborhood);
+		countryRepository.save(country);
+		provinceRepository.save(province);
+		townRepository.save(town);
+		neighborhoodRepository.save(neighborhood);
+		streetRepository.save(street);
+
 
 
 

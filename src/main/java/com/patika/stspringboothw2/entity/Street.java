@@ -7,6 +7,8 @@ import lombok.*;
 import javax.persistence.*;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "street")
 public class Street {
