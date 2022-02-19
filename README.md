@@ -1,3 +1,3 @@
 # KeremAlp-Case2
-## İstenen işlemlerin yapılması için Requestler: https://www.getpostman.com/collections/036270838acdfa462694 POSTMAN ÜZERİNDEN AÇARAK RAHATÇA KONTROL EDEBİLİRSİNİZ
+## Tüm Fonksiyonların rahatça kontrl edilebilmesi için bu koleksiyonu postman üzerinden import edebilirsiniz: https://www.getpostman.com/collections/036270838acdfa462694 
 
