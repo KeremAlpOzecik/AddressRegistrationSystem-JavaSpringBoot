@@ -17,9 +17,15 @@ public class Province implements Serializable {
     private String provinceName;
     private String plateCode;
 
+
+
+    @Column(name = "country_id", nullable=false)
+    private Long country_id;
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL,optional = false)
+    @JoinColumn(name = "country_id", insertable=false, updatable=false)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-  @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL,optional = false)
-  private Country country;
+    private Country country;
+
 
 
 

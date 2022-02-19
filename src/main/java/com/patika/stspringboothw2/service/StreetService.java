@@ -2,6 +2,7 @@ package com.patika.stspringboothw2.service;
 
 import com.patika.stspringboothw2.entity.Neighborhood;
 import com.patika.stspringboothw2.entity.Street;
+import com.patika.stspringboothw2.repository.NeighborhoodRepository;
 import com.patika.stspringboothw2.repository.StreetRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,9 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class StreetService {
     private final StreetRepository streetRepository;
-    public void addStreet(Street street){
+    private final NeighborhoodRepository neighborhoodRepository;
+    public void addStreet(Street street)
+    {   street.setNeighborhood(neighborhoodRepository.findById(street.getNeighId()).get());
         streetRepository.save(street);
     }
 

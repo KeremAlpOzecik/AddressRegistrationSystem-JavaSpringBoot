@@ -1,6 +1,7 @@
 package com.patika.stspringboothw2.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
@@ -15,8 +16,11 @@ public class Street {
     private String streetName;
     private String doorNumber;
     private String aptNumber;
+    @Column(name = "neighId", nullable=false)
+    private Long neighId;
 
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL,optional = false)
-    @JoinColumn(name = "street_neighbor",referencedColumnName = "id")
+    @JoinColumn(name = "neighId", insertable=false, updatable=false)
     private Neighborhood neighborhood;
 }

@@ -15,11 +15,13 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class TownService {
     private final TownRepository townRepository;
+    private final ProvinceRepository provinceRepository;
 
     public void addNewTown(Town town) {
         Optional<Town> townOptional=  townRepository.findTownByTownName(town.getTownName());
         if(townOptional.isPresent())
             throw new IllegalStateException("Town exist");
+        town.setProvince(provinceRepository.findById(town.getProvinceId()).get());
         townRepository.save(town);
     }
     public List<Town> findAll(){return townRepository.findAll();

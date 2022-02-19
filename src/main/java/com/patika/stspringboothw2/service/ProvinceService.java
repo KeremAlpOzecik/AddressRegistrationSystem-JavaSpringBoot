@@ -18,13 +18,13 @@ public class ProvinceService {
     private final CountryService countryService;
 
 
-    public void addNewProvince(Province province) {
+    public void addNewProvince(Province province,Long id) {
 
         Optional<Province> provinceOptional= provinceRepository.findProvinceByPlateCode(province.getPlateCode());
         if(provinceOptional.isPresent())
             throw new IllegalStateException("Province exist");
 
-
+        province.setCountry(countryService.findById(id).get());
         provinceRepository.save(province);
     }
     public List<Province> findByPlateCode(String plateCode){

@@ -3,6 +3,7 @@ package com.patika.stspringboothw2.service;
 import com.patika.stspringboothw2.entity.Neighborhood;
 import com.patika.stspringboothw2.entity.Town;
 import com.patika.stspringboothw2.repository.NeighborhoodRepository;
+import com.patika.stspringboothw2.repository.TownRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,8 +15,12 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class NeighborhoodService {
     private final NeighborhoodRepository neighborhoodRepository;
+    private final TownRepository townRepository;
+
     public void addNeighborhood(Neighborhood neighborhood){
+        neighborhood.setTown(townRepository.findById(neighborhood.getTownId()).get());
         neighborhoodRepository.save(neighborhood);
+
     }
 
     @Transactional

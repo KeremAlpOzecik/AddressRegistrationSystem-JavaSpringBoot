@@ -46,7 +46,7 @@ public class AddressController {
 
     @PostMapping("/province")
     public void addNewProvince(@RequestBody Province province){
-       provinceService.addNewProvince(province);
+       provinceService.addNewProvince(province,province.getCountry_id());
     }
 
     @PostMapping("/town")

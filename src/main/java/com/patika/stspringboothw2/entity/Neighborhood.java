@@ -14,10 +14,12 @@ public class Neighborhood {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String neighName;
+    @Column(name = "townId", nullable=false)
+    private Long townId;
 
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL,optional = false)
-    @JoinColumn(name = "neighbor_town",referencedColumnName = "id")
+    @JoinColumn(name = "townId", insertable=false, updatable=false)
     private Town town;
 
 }
