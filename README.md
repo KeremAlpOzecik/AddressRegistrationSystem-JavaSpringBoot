@@ -1,5 +1,5 @@
 # AddressRegistrationSystem-JavaSpringBoot
-This project is an address registration system api
+
 
 
 ## Proje 9001 portunda başlıyor  get methodlarını postmande yazmadım.
